@@ -40,6 +40,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "getComment", null);
 __decorate([
+    routing_controllers_1.Authorized(),
     routing_controllers_1.Post('/comments'),
     routing_controllers_1.HttpCode(201),
     __param(0, routing_controllers_1.Body()),

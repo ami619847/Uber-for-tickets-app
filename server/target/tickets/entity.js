@@ -38,11 +38,6 @@ __decorate([
     __metadata("design:type", String)
 ], Ticket.prototype, "description", void 0);
 __decorate([
-    class_validator_1.IsUrl(),
-    typeorm_1.Column('text'),
-    __metadata("design:type", String)
-], Ticket.prototype, "picture", void 0);
-__decorate([
     typeorm_1.CreateDateColumn({ type: "timestamp" }),
     __metadata("design:type", Date)
 ], Ticket.prototype, "createdAt", void 0);

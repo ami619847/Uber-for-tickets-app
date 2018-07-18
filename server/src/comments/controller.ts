@@ -1,6 +1,4 @@
-import { JsonController, Get, Param, 
-    //Authorized, 
-    Post, HttpCode, Body } from 'routing-controllers'
+import { JsonController, Get, Param, Authorized, Post, HttpCode, Body } from 'routing-controllers'
 import Comment from './entity'
 
 @JsonController()
@@ -19,7 +17,7 @@ export default class CommentController {
         return Comment.findOne(id)
     }  
 
-    //@Authorized()
+    @Authorized()
     @Post('/comments')
     @HttpCode(201)
     createComment(

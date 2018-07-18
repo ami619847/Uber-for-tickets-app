@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-import { IsString, Length, IsUrl, IsDate } from 'class-validator'
+import { IsString, Length, 
+  //IsUrl, IsDate 
+} from 'class-validator'
 import Ticket from '../tickets/entity'
 import User from '../users/entity'
 
@@ -19,13 +21,14 @@ export default class Event extends BaseEntity {
   @Column('text')
   description: string
   
-  @IsUrl()
+  //@IsUrl()
   @Column('text')
   picture: string
 
-  @IsDate()
-  @Column('daterange')  //or 'date' https://github.com/typeorm/typeorm/blob/master/src/driver/types/ColumnTypes.ts
-  date: Date
+  //@IsDate()
+  @Column('daterange')  //or 'daterange' https://github.com/typeorm/typeorm/blob/master/src/driver/types/ColumnTypes.ts
+  date: string
+  // date: Date
 
   @OneToMany(() => Ticket, ticket => ticket.event)
   tickets: Ticket[]

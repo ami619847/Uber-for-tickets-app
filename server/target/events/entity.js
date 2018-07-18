@@ -32,14 +32,12 @@ __decorate([
     __metadata("design:type", String)
 ], Event.prototype, "description", void 0);
 __decorate([
-    class_validator_1.IsUrl(),
     typeorm_1.Column('text'),
     __metadata("design:type", String)
 ], Event.prototype, "picture", void 0);
 __decorate([
-    class_validator_1.IsDate(),
     typeorm_1.Column('daterange'),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Event.prototype, "date", void 0);
 __decorate([
     typeorm_1.OneToMany(() => entity_1.default, ticket => ticket.event),

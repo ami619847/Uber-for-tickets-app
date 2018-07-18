@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-import { IsString, Length, IsCurrency, IsUrl } from 'class-validator';
+import { IsString, Length, IsCurrency } from 'class-validator';
 import Event from '../events/entity'
 import Comment from '../comments/entity'
 import User from '../users/entity'
@@ -23,10 +23,6 @@ export default class Ticket extends BaseEntity {
   @Length(2,300)
   @Column('text')
   description: string
-
-  @IsUrl()
-  @Column('text')
-  picture: string
 
   @CreateDateColumn({type: "timestamp"})
   createdAt: Date

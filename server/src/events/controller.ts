@@ -1,7 +1,8 @@
 import { JsonController, Get, Param, 
-    //Authorized, 
-    Post, HttpCode, Body } from 'routing-controllers'
+    Authorized, 
+    Post, HttpCode, CurrentUser, Body } from 'routing-controllers'
 import Event from './entity'
+import User from '../users/entity'
 
 @JsonController()
 export default class EventController {
@@ -19,13 +20,25 @@ export default class EventController {
         return Event.findOne(id)
     }  
 
-    //@Authorized()
+    @Authorized()
     @Post('/events')
     @HttpCode(201)
-    createEvent(
+    async createEvent(
+        @CurrentUser() user: User, 
         @Body() event: Event
     ) {
+        if (user) event.user = user
         return event.save()
     }
-
+    
+    // @Authorized()
+    // @Post('/events')
+    // @HttpCode(201)
+    // createEvent(
+    //     //@CurrentUser() user: User,
+    //     @Body() event: Event
+    // ) {
+        
+    //     return event.save()
+    // }
 }

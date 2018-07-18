@@ -12,8 +12,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const routing_controllers_1 = require("routing-controllers");
 const class_validator_1 = require("class-validator");
+const routing_controllers_1 = require("routing-controllers");
 const jwt_1 = require("../jwt");
 const entity_1 = require("../users/entity");
 class AuthenticatePayload {
