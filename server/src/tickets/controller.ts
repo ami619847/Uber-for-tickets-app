@@ -1,21 +1,28 @@
-import { JsonController, Get, Param, Authorized, Post, HttpCode, Body, Put, NotFoundError, CurrentUser, 
-    BadRequestError 
-} from 'routing-controllers'
+import { JsonController, Get, Param, Authorized, Post, HttpCode, Body, Put, NotFoundError, CurrentUser } from 'routing-controllers'
 import Ticket from './entity'
 import User from '../users/entity'
-import Event from '../events/entity'
 
 @JsonController()
 export default class TicketController {
 
+    // @Get('/tickets')
+    // async allTickets(
+    //     @Param('id') eventId: number
+    // ) {
+    //     const event = await Event.findOne(eventId)
+    //     if (!event) throw new BadRequestError(`Event does not exist`)
+        
+    //     const tickets = await Ticket.find()
+    //     return { tickets }
+    // }   
+
     @Get('/tickets')
     async allTickets() {
-        const tickets = await Ticket.find()
+        const tickets = await Ticket.find({relations: ['event']})
         return { tickets }
-    }   
+    } 
    
-    //@Get('/tickets/:id([0-9]+)')
-    @Get('/tickets/:id')
+    @Get('/tickets/:id([0-9]+)')
     getTicket(
         @Param('id') id: number
     ) {
@@ -27,15 +34,10 @@ export default class TicketController {
     @HttpCode(201)
     async createTicket(
         @CurrentUser() user: User,
-        @Param('id') eventId: number,  
-        @Body() ticket: Ticket
+        @Body() ticket: Ticket,
     ) {      
         if (user) ticket.user = user
-
-        const event = await Event.findOne(eventId)
-        if (!event) throw new BadRequestError('There is no event')
-
-        return await ticket.save()
+        return ticket.save()
     }
 
     @Authorized()
@@ -51,5 +53,4 @@ export default class TicketController {
 
         return await Ticket.merge(ticket, update).save()
     }
-
 }

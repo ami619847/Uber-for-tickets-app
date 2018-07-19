@@ -34,7 +34,7 @@ class EventsList extends PureComponent {
               <div key={event.id}>
                 <p>{event.id}</p>
                 <p><Link to={ `/events/${event.id}` }>{event.name}</Link></p>
-                <img src = {event.picture} alt="event picture"/>
+                <img src = {event.picture} alt="event"/>
                 <p>{event.date}</p>
               </div>)
             )}

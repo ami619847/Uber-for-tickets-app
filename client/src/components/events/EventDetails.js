@@ -8,6 +8,8 @@ import TicketForm from '../tickets/TicketForm';
 class EventDetails extends PureComponent {
   
   createTicket = (ticket) => {
+    ticket.event = this.props.event
+    //console.log(ticket)
     this.props.createTicket(ticket)
   }
 
@@ -24,31 +26,29 @@ class EventDetails extends PureComponent {
       <div>
           <h1>{event.name}</h1>
           { !event.picture && 'There is no picture' }
-          <img src = {event.picture} alt="event picture"/>
+          <img src = {event.picture} alt="event"/>
           <p>{event.description}</p>
           <p>{event.date}</p>
-          <dev>
-            <h3>Event tickets</h3>
-              
-              { event.tickets.map(ticket => (
-                <div key={ticket.id}>{
-                  <p>
-                    <Link to={`/tickets/${ticket.id}`}>{ticket.ticketAuthor}</Link>
-                  </p>}
-                  <p>{ticket.price}</p>
-                  <p>{ticket.description}</p>
-                </div>)   
-              )} 
-
-              { 
-                this.props.currentUser && this.props.event.id &&
-                  <div>                     
-                    <h3>Create new ticket </h3>
-                    <TicketForm onSubmit={this.createTicket} />
-                  </div>
-              }             
-          </dev>  
           
+          <h3>Event tickets</h3>              
+          { event.tickets.map(ticket => (
+            <div key={ticket.id}>{
+              <p>
+                <Link to={`/tickets/${ticket.id}`}>{ticket.ticketAuthor}</Link>
+              </p>}
+              <p>{ticket.price}</p>
+              <p>{ticket.description}</p>
+            </div>)   
+          )} 
+
+          { 
+            this.props.currentUser && 
+              <div>                     
+                <h3>Create new ticket </h3>
+                <TicketForm onSubmit={this.createTicket} />
+              </div>
+          }             
+            
           { !this.props.currentUser && <p>Please <Link to="/login">Login</Link></p> }
           { !this.props.currentUser && <p>New user? <Link to="/signup">Sign up</Link></p> } 
       </div>

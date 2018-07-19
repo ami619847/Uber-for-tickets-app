@@ -1,4 +1,4 @@
-import {FETCHED_ALL_TICKETS, ADD_TICKET} from '../actions/tickets'
+import {FETCHED_ALL_TICKETS, ADD_TICKET, UPDATE_TICKET} from '../actions/tickets'
 import {USER_LOGOUT} from '../actions/users'
 
 export default function (state = [], action) {
@@ -10,7 +10,15 @@ export default function (state = [], action) {
       return action.payload
 
     case ADD_TICKET:
-  	  return [...state, action.payload]
+      return [...state, action.payload]
+      
+    case UPDATE_TICKET:
+      return state.map(ticket => {
+        if (ticket.id === action.payload.id) {
+          return action.payload
+        }
+        else return ticket
+      })
 
   	default:
       return state

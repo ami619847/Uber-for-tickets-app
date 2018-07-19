@@ -40,7 +40,6 @@ class TicketForm extends PureComponent {
 						this.state.description !== undefined ? this.state.description : initialValues.description || ''
 					} onChange={ this.handleChange } />
 				</div>
-
 				<button type="submit">Save ticket</button>
 			</form>
 		)

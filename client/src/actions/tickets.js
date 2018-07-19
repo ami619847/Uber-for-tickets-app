@@ -28,9 +28,11 @@ export const fetchTicket = (ticketId) => (dispatch) => {
     .catch(err => alert(err))
 }
 
-export const createTicket = (eventId, ticket) => (dispatch, getState) => {
+export const createTicket = (ticket) => (dispatch, getState) => {
   const state = getState()
   const jwt = state.currentUser.jwt
+
+  //console.log(ticket)
 
   if (isExpired(jwt)) return dispatch(logout())
 
