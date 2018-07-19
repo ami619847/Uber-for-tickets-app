@@ -10,7 +10,6 @@ class EventsList extends PureComponent {
     events: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
-      descritpion: PropTypes.string.isRequired,
       picture: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired
     })).isRequired
@@ -28,23 +27,27 @@ class EventsList extends PureComponent {
     const {events} = this.props
     return (
       <div>
-        { this.props.currentUser && 
+        
           <div>
             <h1>Current events </h1>        
-            
             { events.map(event => (
               <div key={event.id}>
                 <p>{event.id}</p>
                 <p><Link to={ `/events/${event.id}` }>{event.name}</Link></p>
-                <p>{event.picture}</p>
+                <img src = {event.picture} alt="event picture"/>
                 <p>{event.date}</p>
               </div>)
             )}
-                     
-    				<h3>Create new event </h3>
-            <EventForm onSubmit={this.createEvent} />
+
+            { this.props.currentUser && 
+              <div>                     
+                <h3>Create new event </h3>
+                <EventForm onSubmit={this.createEvent} />
+              </div>
+            }
+
           </div>
-        }                  
+                         
         { !this.props.currentUser && <p>Please <Link to="/login">Login</Link></p> }
         { !this.props.currentUser && <p>New user? <Link to="/signup">Sign up</Link></p> }
       </div>

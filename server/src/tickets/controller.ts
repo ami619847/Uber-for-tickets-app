@@ -1,7 +1,6 @@
-import { JsonController, Get, Param, 
-    //Authorized, 
-    Post, HttpCode, Body, Put, NotFoundError } from 'routing-controllers'
+import { JsonController, Get, Param, Authorized, Post, HttpCode, Body, Put, NotFoundError, CurrentUser } from 'routing-controllers'
 import Ticket from './entity'
+import User from '../users/entity'
 
 @JsonController()
 export default class TicketController {
@@ -19,25 +18,29 @@ export default class TicketController {
         return Ticket.findOne(id)
     }  
 
-    //@Authorized()
+    @Authorized()
     @Post('/tickets')
     @HttpCode(201)
-    createTicket(
+    async createTicket(
+        @CurrentUser() user: User, 
         @Body() ticket: Ticket
     ) {
-        return ticket.save()
+        if (user) ticket.user = user
+        return await ticket.save()
     }
 
-    //@Authorized()
+    @Authorized()
     @Put('/tickets/:id')
     async updateTicket(
         @Param('id') id: number,
+        @CurrentUser() user: User,
         @Body() update: Partial<Ticket>
-    ) {
+    ) {        
         const ticket = await Ticket.findOne(id)
         if (!ticket) throw new NotFoundError('Cannot find a ticket')
+        if (user) ticket.user = user
 
-        return Ticket.merge(ticket, update).save()
+        return await Ticket.merge(ticket, update).save()
     }
 
 }

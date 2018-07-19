@@ -28,7 +28,7 @@ export default class EventController {
         @Body() event: Event
     ) {
         if (user) event.user = user
-        return event.save()
+        return await event.save()
     }
     
     // @Authorized()
