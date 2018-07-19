@@ -1,11 +1,16 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {fetchEvent} from '../../actions/events';
-import {fetchAllTickets} from '../../actions/tickets';
+import {fetchAllTickets, createTicket} from '../../actions/tickets';
 import {Link} from 'react-router-dom';
 import TicketForm from '../tickets/TicketForm';
 
 class EventDetails extends PureComponent {
+  
+  createTicket = (ticket) => {
+    this.props.createTicket(ticket)
+  }
+
   componentWillMount(props) {
     this.props.fetchEvent(this.props.match.params.id)
     this.props.fetchAllTickets()
@@ -14,7 +19,6 @@ class EventDetails extends PureComponent {
   render() {
     const {event} = this.props
     if (!event) return null
-    console.log(event)
 
     return (
       <div>
@@ -29,7 +33,7 @@ class EventDetails extends PureComponent {
               { event.tickets.map(ticket => (
                 <div key={ticket.id}>{
                   <p>
-                    <Link to={`/events/${event.id}/${ticket.id}`}>{ticket.ticketAuthor}</Link>
+                    <Link to={`/tickets/${ticket.id}`}>{ticket.ticketAuthor}</Link>
                   </p>}
                   <p>{ticket.price}</p>
                   <p>{ticket.description}</p>
@@ -37,15 +41,14 @@ class EventDetails extends PureComponent {
               )} 
 
               { 
-                this.props.currentUser && 
+                this.props.currentUser && this.props.event.id &&
                   <div>                     
                     <h3>Create new ticket </h3>
-                    <TicketForm onSubmit={this.createEvent} />
+                    <TicketForm onSubmit={this.createTicket} />
                   </div>
-              }
-              
-
+              }             
           </dev>  
+          
           { !this.props.currentUser && <p>Please <Link to="/login">Login</Link></p> }
           { !this.props.currentUser && <p>New user? <Link to="/signup">Sign up</Link></p> } 
       </div>
@@ -56,8 +59,9 @@ class EventDetails extends PureComponent {
 const mapStateToProps = function (state) {
   return {
     event: state.event,
-    tickets: state.tickets
+    tickets: state.tickets,
+    currentUser: state.currentUser
   }
 }
 
-export default connect(mapStateToProps, {fetchEvent, fetchAllTickets})(EventDetails)
+export default connect(mapStateToProps, {fetchEvent, fetchAllTickets, createTicket})(EventDetails)

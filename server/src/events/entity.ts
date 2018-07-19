@@ -26,7 +26,7 @@ export default class Event extends BaseEntity {
   picture: string
 
   //@IsDate()
-  @Column('daterange')  //or 'daterange' https://github.com/typeorm/typeorm/blob/master/src/driver/types/ColumnTypes.ts
+  @Column('daterange')  //https://github.com/typeorm/typeorm/blob/master/src/driver/types/ColumnTypes.ts
   date: string
   // date: Date
 

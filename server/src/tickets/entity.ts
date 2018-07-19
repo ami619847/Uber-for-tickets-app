@@ -30,7 +30,7 @@ export default class Ticket extends BaseEntity {
   @ManyToOne(() => Event, event => event.tickets)
   event: Event
 
-  @OneToMany(() => Comment, comment => comment.ticket)
+  @OneToMany(() => Comment, comment => comment.ticket, {eager:true})
   comments: Comment[]
 
   @ManyToOne(() => User, user => user.tickets)

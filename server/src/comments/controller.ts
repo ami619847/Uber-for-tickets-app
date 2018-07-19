@@ -1,5 +1,6 @@
-import { JsonController, Get, Param, Authorized, Post, HttpCode, Body } from 'routing-controllers'
+import { JsonController, Get, Param, Authorized, Post, HttpCode, Body, CurrentUser } from 'routing-controllers'
 import Comment from './entity'
+import User from '../users/entity'
 
 @JsonController()
 export default class CommentController {
@@ -20,10 +21,11 @@ export default class CommentController {
     @Authorized()
     @Post('/comments')
     @HttpCode(201)
-    createComment(
+    async createComment(
+        @CurrentUser() user: User, 
         @Body() comment: Comment
     ) {
-        return comment.save()
+        if (user) comment.user = user
+        return await comment.save()
     }
-
 }

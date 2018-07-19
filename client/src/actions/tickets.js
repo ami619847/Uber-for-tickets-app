@@ -28,7 +28,7 @@ export const fetchTicket = (ticketId) => (dispatch) => {
     .catch(err => alert(err))
 }
 
-export const createTicket = (ticket) => (dispatch, getState) => {
+export const createTicket = (eventId, ticket) => (dispatch, getState) => {
   const state = getState()
   const jwt = state.currentUser.jwt
 
@@ -58,4 +58,5 @@ export const updateTicket = (ticketId, updates) => (dispatch, getState) => {
         type: UPDATE_TICKET,
         payload: response.body
       }))
+      .catch(err => alert(err))
   }

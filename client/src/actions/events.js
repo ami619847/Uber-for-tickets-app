@@ -41,4 +41,5 @@ export const createEvent = (event) => (dispatch, getState) => {
       type: ADD_EVENT,
       payload: response.body
     }))
+    .catch(err => alert(err))
 }

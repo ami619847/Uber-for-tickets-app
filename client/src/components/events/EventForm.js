@@ -23,28 +23,28 @@ class EventForm extends PureComponent {
 				<div>
 					<label htmlFor="name">Event name</label>
 					<input name="name" id="name" value={
-						this.state.name !== undefined ? this.state.name : initialValues.name
+						this.state.name !== undefined ? this.state.name : initialValues.name || ''
 					} onChange={ this.handleChange } />
 				</div>
 
                 <div>
 					<label htmlFor="description">Event description</label>
 					<input name="description" id="description" value={
-						this.state.description !== undefined ? this.state.description : initialValues.description
+						this.state.description !== undefined ? this.state.description : initialValues.description || ''
 					} onChange={ this.handleChange } />
 				</div>
 
 				<div>
 					<label htmlFor="picture">Upload url</label>
 					<input name="picture" id="picture" value={
-						this.state.picture !== undefined ? this.state.picture : initialValues.picture
+						this.state.picture !== undefined ? this.state.picture : initialValues.picture || ''
 					} onChange={ this.handleChange } />
 				</div>
 
                 <div>
 					<label htmlFor="date">Event date</label>
 					<input name="date" id="date" value={
-						this.state.date !== undefined ? this.state.date : initialValues.date
+						this.state.date !== undefined ? this.state.date : initialValues.date || ''
 					} onChange={ this.handleChange } />
 				</div>
 

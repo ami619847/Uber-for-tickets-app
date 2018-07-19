@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-import { IsString, Length, IsCurrency } from 'class-validator';
+import { IsString, Length } from 'class-validator'
 import Ticket from '../tickets/entity'
 import User from '../users/entity'
 
@@ -13,10 +13,6 @@ export default class Comment extends BaseEntity {
   @IsString()
   @Column('text')
   commentAuthor: string
-
-  @IsCurrency()
-  @Column('money')
-  price: string
 
   @IsString()
   @Length(2,300)
