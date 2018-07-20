@@ -5,17 +5,6 @@ import User from '../users/entity'
 @JsonController()
 export default class TicketController {
 
-    // @Get('/tickets')
-    // async allTickets(
-    //     @Param('id') eventId: number
-    // ) {
-    //     const event = await Event.findOne(eventId)
-    //     if (!event) throw new BadRequestError(`Event does not exist`)
-        
-    //     const tickets = await Ticket.find()
-    //     return { tickets }
-    // }   
-
     @Get('/tickets')
     async allTickets() {
         const tickets = await Ticket.find({relations: ['event']})

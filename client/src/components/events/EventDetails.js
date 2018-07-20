@@ -5,6 +5,9 @@ import {fetchAllTickets, createTicket} from '../../actions/tickets';
 import {Link} from 'react-router-dom';
 import TicketForm from '../tickets/TicketForm';
 
+import Typography from '@material-ui/core/Typography';
+import './EventsList.css';
+
 class EventDetails extends PureComponent {
   
   createTicket = (ticket) => {
@@ -24,27 +27,32 @@ class EventDetails extends PureComponent {
 
     return (
       <div>
-          <h1>{event.name}</h1>
-          { !event.picture && 'There is no picture' }
-          <img src = {event.picture} alt="event"/>
-          <p>{event.description}</p>
-          <p>{event.date}</p>
-          
-          <h3>Event tickets</h3>              
+        <div className="flex-container">
+          <Typography variant="display1" color="inherit" align="center" style={{flex: 1}}>{event.name.toUpperCase()}</Typography>  
+            { !event.picture && 'There is no picture' }
+            <img src = {event.picture} alt="event"/>
+            <p>Event details: {event.description}</p>
+            <p>{event.date}</p>
+        </div>
+        <br/>
+
+        <Typography variant="headline" color="inherit" align="center" style={{flex: 1}}>TICKETS</Typography>  
+                    
           { event.tickets.map(ticket => (
-            <div key={ticket.id}>{
-              <p>
-                <Link to={`/tickets/${ticket.id}`}>{ticket.ticketAuthor}</Link>
-              </p>}
-              <p>{ticket.price}</p>
-              <p>{ticket.description}</p>
+            <div className="flex-container" key={ticket.id}>{
+              <p>Author: {ticket.ticketAuthor.toUpperCase()}</p>}
+              <p>&euro; {ticket.price}</p>
+              <p>Details: 
+                <Link to={`/tickets/${ticket.id}`}> {ticket.description}</Link>
+              </p>
             </div>)   
           )} 
 
           { 
             this.props.currentUser && 
-              <div>                     
-                <h3>Create new ticket </h3>
+              <div>
+                <Typography variant="headline" color="inherit" align="center" style={{flex: 1}}>Create new ticket</Typography>                     
+                <br/>
                 <TicketForm onSubmit={this.createTicket} />
               </div>
           }             

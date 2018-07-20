@@ -1,4 +1,6 @@
 import React, {PureComponent} from 'react'
+import Button from '@material-ui/core/Button';
+import '../events/EventsList.css';
 
 class CommentForm extends PureComponent {
 	state = {}
@@ -19,9 +21,10 @@ class CommentForm extends PureComponent {
 	render() {
 		const initialValues = this.props.initialValues || {}
 		return (
-			<form onSubmit={this.handleSubmit}>
+			<form onSubmit={this.handleSubmit} className="eventForm">
                 <div>
 					<label htmlFor="commentAuthor">Comment Author</label>
+					<br/>
 					<input name="commentAuthor" id="commentAuthor" value={
 						this.state.commentAuthor !== undefined ? this.state.commentAuthor : initialValues.commentAuthor || '' 
 					} onChange={ this.handleChange } />
@@ -29,12 +32,13 @@ class CommentForm extends PureComponent {
 
 				<div>
 					<label htmlFor="text">Text</label>
+					<br/>
 					<input name="text" id="text" value={
 						this.state.text !== undefined ? this.state.text : initialValues.text || ''
 					} onChange={ this.handleChange } />
 				</div>
 
-				<button type="submit">Save comment</button>
+				<Button type="submit" variant="outlined">Save comment</Button>
 			</form>
 		)
 	}

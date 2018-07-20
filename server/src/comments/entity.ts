@@ -22,7 +22,7 @@ export default class Comment extends BaseEntity {
   @ManyToOne(() => Ticket, ticket => ticket.comments)
   ticket: Ticket
 
-  @ManyToOne(() => User, user => user.comments)
+  @ManyToOne(() => User, user => user.comments, {eager: true})
   user: User
 
 }

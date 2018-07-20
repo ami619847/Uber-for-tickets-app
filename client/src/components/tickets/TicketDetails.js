@@ -1,16 +1,42 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-import {fetchTicket, updateTicket} from '../../actions/tickets';
+import {fetchTicket, updateTicket, fetchAllTickets} from '../../actions/tickets';
 import {fetchAllComments, createComment} from '../../actions/comments';
 import TicketForm from './TicketForm';
 import CommentForm from '../comments/CommentForm';
 import {Link} from 'react-router-dom';
 
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import '../events/EventsList.css';
+
 class TicketDetails extends PureComponent {  
   state = {
     edit: false
   }
+      
+  createComment = (comment) => {
+    comment.ticket = this.props.ticket
+    this.props.createComment(comment)
+  }  
 
+  componentWillMount(props) {
+    this.props.fetchTicket(this.props.match.params.id)   
+    this.props.fetchAllComments()
+    this.props.fetchAllTickets()    
+  }
+
+  toggleEdit = () => {
+    this.setState({
+      edit: !this.state.edit
+    })
+  }
+
+  updateTicket = (ticket) => {
+    this.props.updateTicket(this.props.match.params.id, ticket)
+    this.toggleEdit()
+  }
+  
   authorRisk() {
     const userIdTickets = this.props.tickets.map(ticket => {
       return ticket.user.id
@@ -26,7 +52,7 @@ class TicketDetails extends PureComponent {
   
   averagePriceRisk() {
     const ticketsPrices = this.props.tickets.map(ticket => ticket.price) 
-     //console.log(this.props.tickets)
+    
     const totalTicketsSum = ticketsPrices.reduce((accumulator, currentValue) => {
       return (accumulator + currentValue)
     })                
@@ -56,45 +82,17 @@ class TicketDetails extends PureComponent {
   }
 
   FraudRisk() {
-    const total = this.authorRisk() + 
-    // this.averagePriceRisk() + 
-      this.hoursRisk() + this.commentsRisk()
-    
+    const total = 
+    this.authorRisk() + 
+    this.averagePriceRisk() + 
+    this.hoursRisk() + this.commentsRisk()
+
     if (total<5) {
         return 5 
     } else if (total>95) {
         return "It is a possible fraud"
     } else return total    
-    
-    // const newTotal = new Number(total)
-    // if (newTotal<5) {
-    //     return 5 
-    // } else if (newTotal>95) {
-    //     return "It is a possible fraud"
-    // } else return newTotal
   } 
-    
-  createComment = (comment) => {
-    comment.ticket = this.props.ticket
-    this.props.createComment(comment)
-  }  
-
-  componentWillMount(props) {
-    this.props.fetchTicket(this.props.match.params.id)   
-    this.props.fetchAllComments()    
-  }
-
-  toggleEdit = () => {
-    this.setState({
-      edit: !this.state.edit
-    })
-  }
-
-  updateTicket = (ticket) => {
-    this.props.updateTicket(this.props.match.params.id, ticket)
-    this.toggleEdit()
-  }
-  
   
   render() {
     const {ticket} = this.props
@@ -110,21 +108,23 @@ class TicketDetails extends PureComponent {
       
         { !this.state.edit && 
           <div>
-            <h1>{ticket.ticketAuthor}</h1>             
-            <p>Fraud Risk = {this.FraudRisk()} %</p>
-            <p>{ticket.price} &euro;</p>
-            <p>{ticket.description}</p>
-         
-            { this.props.currentUser && 
-              <button onClick={ this.toggleEdit }>Edit ticket</button>
-            }            
+            <Typography variant="display1" color="inherit" align="center" style={{flex: 1}}>{ticket.ticketAuthor.toUpperCase()}</Typography>          
+            <div className="flex-container">
+              <p>Fraud Risk = {this.FraudRisk()} %</p>
+              <p>{ticket.price} &euro;</p>
+              <p>{ticket.description}</p>
+          
+              { this.props.currentUser && 
+                <Button  variant="outlined" onClick={ this.toggleEdit }>Edit ticket</Button>
+              } 
+            </div>           
           </div>
         }
 
-        <dev>         
-          <h3>Comments</h3>              
+        <dev> 
+          <Typography variant="headline" color="inherit" align="center" style={{flex: 1}}>COMMENTS</Typography>                               
           { ticket.comments.map(comment => (
-            <div key={comment.id}>{
+            <div className="flex-container" key={comment.id}>{
               <p>
                 <Link to={`/comments/${comment.id}`}>{comment.commentAuthor}</Link>
               </p>}
@@ -135,7 +135,7 @@ class TicketDetails extends PureComponent {
           { 
             this.props.currentUser && 
               <div>                     
-                <h3>Create new comment</h3>
+                <Typography variant="headline" color="inherit" align="center" style={{flex: 1}}>Create new comment</Typography> 
                 <CommentForm onSubmit={this.createComment} />
               </div>
           }                        
@@ -158,7 +158,8 @@ const mapStateToProps = function (state, props) {
 }
 
 export default connect(mapStateToProps, { 
-  fetchTicket, 
+  fetchTicket,
+  fetchAllTickets, 
   updateTicket, 
   fetchAllComments, 
   createComment

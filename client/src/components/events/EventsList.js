@@ -5,6 +5,9 @@ import {Link} from 'react-router-dom';
 import {fetchAllEvents, createEvent} from '../../actions/events';
 import EventForm from './EventForm';
 
+import Typography from '@material-ui/core/Typography';
+import './EventsList.css'
+
 class EventsList extends PureComponent {
   static propTypes = {
     events: PropTypes.arrayOf(PropTypes.shape({
@@ -29,19 +32,22 @@ class EventsList extends PureComponent {
       <div>
         
           <div>
-            <h1>Current events </h1>        
+            <Typography variant="display1" color="inherit" align="center" style={{flex: 1}}>EVENTS</Typography>        
+            
             { events.map(event => (
-              <div key={event.id}>
-                <p>{event.id}</p>
-                <p><Link to={ `/events/${event.id}` }>{event.name}</Link></p>
-                <img src = {event.picture} alt="event"/>
-                <p>{event.date}</p>
-              </div>)
-            )}
-
+              <div className="flex-container" key={event.id}>
+                <p><Link to={ `/events/${event.id}` }>{event.name.toUpperCase()}</Link></p>
+                <img src = {event.picture} alt="event" className="poster"/>
+                <p>Date {event.date}</p>
+              </div>
+              )
+            )} 
+         
             { this.props.currentUser && 
               <div>                     
-                <h3>Create new event </h3>
+                <br/>
+                <Typography variant="headline" color="inherit" align="center" style={{flex: 1}}>Create new event</Typography>
+                <br/>
                 <EventForm onSubmit={this.createEvent} />
               </div>
             }

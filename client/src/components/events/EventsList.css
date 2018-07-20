@@ -1,0 +1,19 @@
+.flex-container{
+    /* display: flex; */
+    margin: auto;
+    width: 50%;
+    border: 1px solid lightgrey;
+    padding: 10px;
+    height: 100%;
+    text-align: center;
+}
+
+.poster{
+    padding: 5px;
+    width: 300px;
+    height: auto;
+}
+
+.eventForm{
+    text-align: center;
+}

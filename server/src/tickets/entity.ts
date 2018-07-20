@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-import { IsString, Length, IsCurrency } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 import Event from '../events/entity'
 import Comment from '../comments/entity'
 import User from '../users/entity'
@@ -15,9 +15,8 @@ export default class Ticket extends BaseEntity {
   @Column('text')
   ticketAuthor: string
 
-  @IsCurrency()
-  @Column('money')
-  price: string
+  @Column('integer')
+  price: number
 
   @IsString()
   @Length(2,300)
@@ -33,7 +32,7 @@ export default class Ticket extends BaseEntity {
   @OneToMany(() => Comment, comment => comment.ticket, {eager:true})
   comments: Comment[]
 
-  @ManyToOne(() => User, user => user.tickets)
+  @ManyToOne(() => User, user => user.tickets, {eager:true})
   user: User
 
 }
